@@ -98,3 +98,10 @@ def ruin_probability(
         if res.ruined:
             ruined += 1
     return ruined / trials if trials else 0.0
+
+
+def growth_factor(final: float, initial: float) -> float:
+    """Return final/initial bankroll ratio (0 if initial <= 0)."""
+    if initial <= 0:
+        return 0.0
+    return final / initial
