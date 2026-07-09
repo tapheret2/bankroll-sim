@@ -78,3 +78,23 @@ def compare_modes(p: float, b: float, bankroll: float, n: int, seed: int = 0) ->
         simulate(p, b, bankroll, n, mode="prop", frac=0.02, seed=seed),
         simulate(p, b, bankroll, n, mode="kelly", kelly_mult=0.5, seed=seed),
     ]
+
+
+def ruin_probability(
+    p: float,
+    b: float,
+    bankroll: float,
+    n: int,
+    mode: Mode = "prop",
+    trials: int = 200,
+    **kwargs,
+) -> float:
+    """Monte Carlo estimate of ruin frequency over *trials* paths."""
+    ruined = 0
+    for i in range(trials):
+        seed = kwargs.get("seed")
+        s = None if seed is None else seed + i
+        res = simulate(p, b, bankroll, n, mode=mode, seed=s, **{k: v for k, v in kwargs.items() if k != "seed"})
+        if res.ruined:
+            ruined += 1
+    return ruined / trials if trials else 0.0
