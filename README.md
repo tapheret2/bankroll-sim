@@ -1,5 +1,7 @@
 # bankroll-sim
 
+![status](https://img.shields.io/badge/status-active-brightgreen) ![python](https://img.shields.io/badge/python-3.10%2B-blue) ![license](https://img.shields.io/badge/license-MIT-lightgrey)
+
 Compare **flat stake**, **proportional**, and **Kelly-ish** sizing on synthetic win/loss sequences.
 
 Educational risk-of-ruin lab for DS students.
