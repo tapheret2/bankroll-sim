@@ -105,3 +105,23 @@ def growth_factor(final: float, initial: float) -> float:
     if initial <= 0:
         return 0.0
     return final / initial
+
+
+def median_final_bankroll(
+    p: float,
+    b: float,
+    bankroll: float,
+    n: int,
+    mode: Mode = "prop",
+    trials: int = 101,
+    **kwargs,
+) -> float:
+    """Median terminal bankroll across independent Monte Carlo paths."""
+    finals: list[float] = []
+    seed = kwargs.pop("seed", None)
+    for i in range(trials):
+        s = None if seed is None else int(seed) + i
+        res = simulate(p, b, bankroll, n, mode=mode, seed=s, **kwargs)
+        finals.append(float(res.final))
+    finals.sort()
+    return finals[len(finals) // 2] if finals else 0.0
