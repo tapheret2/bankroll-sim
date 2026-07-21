@@ -151,3 +151,16 @@ def percentile_final_bankroll(
         return 0.0
     idx = min(len(finals) - 1, max(0, int(q * (len(finals) - 1))))
     return finals[idx]
+
+
+def max_drawdown_from_path(path: list[float]) -> float:
+    """Peak-to-trough max drawdown fraction for a wealth path."""
+    if not path:
+        return 0.0
+    peak = path[0]
+    max_dd = 0.0
+    for x in path:
+        peak = max(peak, x)
+        if peak > 0:
+            max_dd = max(max_dd, (peak - x) / peak)
+    return max_dd
