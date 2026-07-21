@@ -125,3 +125,29 @@ def median_final_bankroll(
         finals.append(float(res.final))
     finals.sort()
     return finals[len(finals) // 2] if finals else 0.0
+
+
+def percentile_final_bankroll(
+    p: float,
+    b: float,
+    bankroll: float,
+    n: int,
+    q: float = 0.1,
+    mode: Mode = "prop",
+    trials: int = 101,
+    **kwargs,
+) -> float:
+    """Empirical q-quantile of terminal bankroll (q in [0, 1])."""
+    if not 0.0 <= q <= 1.0:
+        raise ValueError("q must be in [0, 1]")
+    finals: list[float] = []
+    seed = kwargs.pop("seed", None)
+    for i in range(trials):
+        s = None if seed is None else int(seed) + i
+        res = simulate(p, b, bankroll, n, mode=mode, seed=s, **kwargs)
+        finals.append(float(res.final))
+    finals.sort()
+    if not finals:
+        return 0.0
+    idx = min(len(finals) - 1, max(0, int(q * (len(finals) - 1))))
+    return finals[idx]
