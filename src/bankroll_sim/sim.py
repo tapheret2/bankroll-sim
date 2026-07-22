@@ -164,3 +164,14 @@ def max_drawdown_from_path(path: list[float]) -> float:
         if peak > 0:
             max_dd = max(max_dd, (peak - x) / peak)
     return max_dd
+
+
+def growth_factor(final: float, initial: float) -> float:
+    """final / initial growth multiple (0 if initial <= 0)."""
+    if initial <= 0:
+        raise ValueError("initial must be > 0")
+    return final / initial
+
+
+def is_ruined(bankroll: float, floor: float = 1e-9) -> bool:
+    return bankroll <= floor
